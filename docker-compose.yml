@@ -1,0 +1,40 @@
+services:
+  # Serviço de Banco de Dados PostgreSQL
+  db:
+    image: postgres:14-alpine
+    container_name: postgres_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/ # Mantém os dados persistentes
+    environment:
+      POSTGRES_DB: django_db
+      POSTGRES_USER: django_user
+      POSTGRES_PASSWORD: indio2272
+    expose:
+      - 5432
+    restart: always
+
+  # Serviço de Aplicação Django (que será construído e enviado ao Hub)
+  web:
+    build: . # Constrói a imagem usando o Dockerfile neste diretório
+    image: windsney/canetex:latest # Nome para o Docker Hub
+    container_name: django_app
+    ports:
+      - "8000:8000" # Mapeia porta 8000 da VPS para porta 8000 do container
+    environment:
+      # Variáveis de Configuração do Django (Ajuste no seu settings.py)
+      SECRET_KEY: django-insecure-1pi2z^&y%qo-q9&z$$znjxk98)5z2rvb)&z*jawt#21yv9q9&-1
+      DEBUG: 'False'
+      # Variáveis de Conexão com o BD (devem coincidir com o serviço 'db')
+      DB_NAME: django_db
+      DB_USER: django_user
+      DB_PASSWORD: indio2272
+      DB_HOST: db # O nome do serviço do BD no compose
+      DB_PORT: 5432
+    # Define o script de entrada para esperar pelo BD e aplicar migrações
+    #entrypoint: ["/usr/src/app/docker-entrypoint.sh"]
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  postgres_data:
