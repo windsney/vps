@@ -2,7 +2,7 @@ services:
   # Serviço de Banco de Dados PostgreSQL
   db:
     image: postgres:14-alpine
-    container_name: postgres_db
+    container_name: canetex_db
     volumes:
       - postgres_data:/var/lib/postgresql/data/ # Mantém os dados persistentes
     environment:
