@@ -19,7 +19,7 @@ services:
     image: windsney/canetex:latest # Nome para o Docker Hub
     container_name: django_app
     ports:
-      - "8000:8000" # Mapeia porta 8000 da VPS para porta 8000 do container
+      - "8001:8000" # Mapeia porta 8000 da VPS para porta 8000 do container
     environment:
       # Variáveis de Configuração do Django (Ajuste no seu settings.py)
       SECRET_KEY: django-insecure-1pi2z^&y%qo-q9&z$$znjxk98)5z2rvb)&z*jawt#21yv9q9&-1
