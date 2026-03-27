@@ -17,7 +17,7 @@ services:
   web:
     build: . # Constrói a imagem usando o Dockerfile neste diretório
     image: windsney/canetex:latest # Nome para o Docker Hub
-    container_name: django_app
+    container_name: canetex_app
     ports:
       - "8001:8000" # Mapeia porta 8000 da VPS para porta 8000 do container
     environment:
