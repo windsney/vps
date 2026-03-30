@@ -1,32 +1,25 @@
 services:
-  db_fernanda:
-    image: postgres:14-alpine
-    container_name: fernanda_db
-    volumes:
-    - fernanda_postgres_data:/var/lib/postgresql/data/
-    environment:
-      POSTGRES_DB: django_db
-      POSTGRES_USER: django_user
-      POSTGRES_PASSWORD: indio2272
-    restart: always
-
-  web:
+  web_fernanda:
     image: windsney/fernanda:latest
-    #build: .
     container_name: fernanda_app
     ports:
       - "8003:8000"
     environment:
-      SECRET_KEY: 'django-insecure-$$=lbe$$n$$hwdov-14(hc@939mgdf_1#o-f883b@$$jg3(@1v^u+m'
-      DEBUG: 'False'
-      DB_NAME: django_db
-      DB_USER: django_user
-      DB_PASSWORD: indio2272
-      DB_HOST: db_fernanda  # <--- AGORA COMBINA COM O NOME ACIMA
-      DB_PORT: 5432
-    depends_on:
-      - db_fernanda          # <--- AGORA COMBINA COM O NOME ACIMA
+      # Variáveis que o Django vai ler no seu settings.py
+      - DB_NAME=fernanda_db
+      - DB_USER=root
+      - DB_PASSWORD=indio2272
+      - DB_HOST=db_mestre
+      - DB_PORT=3306
+      - PYTHONUNBUFFERED=1
+    networks:
+      - rede_compartilhada
+    deploy:
+      resources:
+        limits:
+          memory: 256M # Limite de RAM para não travar a VPS
     restart: always
 
-volumes:
-  fernanda_postgres_data:    # <--- AGORA COMBINA COM O NOME NO SERVIÇO:
+networks:
+  rede_compartilhada:
+    external: true
