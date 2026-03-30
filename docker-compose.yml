@@ -1,12 +1,12 @@
 services:
-  web_fernanda:
-    image: windsney/fernanda:latest
-    container_name: fernanda_app
+  web_canetex:
+    image: windsney/canetex:latest
+    container_name: canetex_app
     ports:
-      - "8003:8000"
+      - "8000:8000"  # Acessível via http://IP-DA-VPS:8000
     environment:
-      # Variáveis que o Django vai ler no seu settings.py
-      - DB_NAME=fernanda_db
+      # Configurações para o Django conectar no MariaDB Mestre
+      - DB_NAME=canetex_db
       - DB_USER=root
       - DB_PASSWORD=indio2272
       - DB_HOST=db_mestre
@@ -17,7 +17,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 256M # Limite de RAM para não travar a VPS
+          memory: 256M # Garante que o Canetex não consuma toda a RAM da VPS
     restart: always
 
 networks:
